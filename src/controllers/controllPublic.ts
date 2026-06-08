@@ -2,7 +2,10 @@ import type { Request, Response } from 'express';
 import { User } from '../models/modelUser';
 import { useShema } from '../validations/cadastrarUser';
 import bcrypt from 'bcryptjs';
+import jwt from 'jsonwebtoken';
+import dotenv from 'dotenv';
 
+dotenv.config();
 
 class ControllPublic {
 
@@ -50,7 +53,7 @@ class ControllPublic {
     }
   }
 
-  
+
   public async login(req: Request, res: Response): Promise<Response> {
     try {
 
@@ -66,10 +69,17 @@ class ControllPublic {
         return res.status(404).json({ mensagem: 'Usuário ou senha inválida' })
       }
 
-      return res.status(200).json({ mensagem: 'Login bem-sucedido', usuario });
+      //Usuário autenticado, gerar token JWT
+      const token = jwt.sign(
+
+        {id: usuario[0]._id, email: usuario[0].email}, process.env.JWT_SECRET as string, { expiresIn: '1h' }
+        
+      );
+
+      return res.status(200).json({ mensagem: 'Usuário logado com sucesso.', token});
 
     } catch (error) {
-      return res.status(500).json({ mensagem: 'Erro ao fazer login impossivel comunicar com servidor' + error });
+      return res.status(500).json({ mensagem: 'Erro ao fazer login. Impossivel comunicar com servidor' + error });
     }
   }
 

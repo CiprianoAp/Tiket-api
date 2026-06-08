@@ -13,9 +13,11 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const mongoose_1 = __importDefault(require("mongoose"));
+const dotenv_1 = __importDefault(require("dotenv"));
+dotenv_1.default.config();
 const conne = () => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        yield mongoose_1.default.connect("mongodb://localhost:27017/tikets");
+        yield mongoose_1.default.connect(`${process.env.URI_MONGO}/${process.env.DB_NAME}`);
         console.log("Connected to MongoDB");
     }
     catch (error) {
