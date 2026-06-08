@@ -1,35 +1,52 @@
-import { Request, Response, NextFunction } from 'express';
-import jwt from 'jsonwebtoken';
-import AuthRequest from "../types/express/index";
-import dotenv from 'dotenv';
+import { Request, Response, NextFunction } from "express";
+import jwt, { JwtPayload } from "jsonwebtoken";
+import dotenv from "dotenv";
 
 dotenv.config();
 
+interface UserPayload extends JwtPayload {
+  id: string;
+  email: string;
+}
+
 export const auth = (
-    req: any = AuthRequest as Request,
-    res: Response,
-    next: NextFunction
+  req: Request,
+  res: Response,
+  next: NextFunction
 ) => {
-    const authHeader = req.headers.authorization;
+  const authHeader = req.headers.authorization;
 
-    if (!authHeader) {
+  if (!authHeader) {
+    return res.status(401).json({
+      message: "Token de autenticação não fornecido"
+    });
+  }
 
-        return res.status(401).json({ message: 'Token de autenticação não fornecido' });
+  const parts = authHeader.split(" ");
 
-    }
+  if (parts.length !== 2) {
+    return res.status(401).json({
+      message: "Formato do token inválido"
+    });
+  }
 
-    const [, token] = authHeader.split(' ');
+  const token = parts[1];
 
-    try {
-        const decoded = jwt.verify(
-            token,
-            process.env.JWT_SECRET as string
-        );
-        req.user = decoded;
-        next();
-    } catch (error) {
+  try {
+    const decoded = jwt.verify(
+      token,
+      process.env.JWT_SECRET as string
+    ) as UserPayload;
 
-        return res.status(401).json({ message: 'Token de autenticação inválido' });
-    }
+    req.user = {
+      id: decoded.id,
+      email: decoded.email
+    };
 
-} 
+    next();
+  } catch (error) {
+    return res.status(401).json({
+      message: "Token de autenticação inválido"
+    });
+  }
+};
