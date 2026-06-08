@@ -7,5 +7,7 @@ const routterPublic = express.Router();
 routterPublic.get('/', controllPublic.principal);
 //Criar para endpoint de criação de usuário
 routterPublic.post('/criar-usuario', controllPublic.criarUsuario);
+//Criar para endpoint de login
+routterPublic.post('/login', controllPublic.login);
 
 export default routterPublic;

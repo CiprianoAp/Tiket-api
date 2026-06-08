@@ -10,5 +10,7 @@ const routterPublic = express_1.default.Router();
 routterPublic.get('/', controllPublic_1.default.principal);
 //Criar para endpoint de criação de usuário
 routterPublic.post('/criar-usuario', controllPublic_1.default.criarUsuario);
+//Criar para endpoint de login
+routterPublic.post('/login', controllPublic_1.default.login);
 exports.default = routterPublic;
 //# sourceMappingURL=routerPublic.js.map

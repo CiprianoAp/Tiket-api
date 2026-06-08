@@ -4,9 +4,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
-const auth_1 = require("../../middleware/auth");
-const controllPrivate_1 = __importDefault(require("../../controllers/controllPrivate"));
+const routerPublic_1 = __importDefault(require("../private/routerPublic"));
 const routerPrivate = express_1.default.Router();
-routerPrivate.get('/private', auth_1.auth, controllPrivate_1.default.private);
+routerPrivate.get('/private', routerPublic_1.default);
 exports.default = routerPrivate;
-//# sourceMappingURL=routerPrivate.js.map
+//# sourceMappingURL=routerPublic.js.map

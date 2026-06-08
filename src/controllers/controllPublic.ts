@@ -2,7 +2,10 @@ import type { Request, Response } from 'express';
 import { User } from '../models/modelUser';
 import { useShema } from '../validations/cadastrarUser';
 import bcrypt from 'bcryptjs';
+import jwt from 'jsonwebtoken';
+import dotenv from 'dotenv';
 
+dotenv.config();
 
 class ControllPublic {
 
@@ -31,7 +34,7 @@ class ControllPublic {
       //Verificar se o email já existe no banco de dados
       const emailExistente = await User.findOne({ email });
 
-      if(emailExistente) {
+      if (emailExistente) {
         return res.status(409).json({ mensagem: 'Email já cadastrado' });
       }
 
@@ -47,6 +50,36 @@ class ControllPublic {
 
       return res.status(500).json({ mensagem: 'Erro ao criar usuario impossivel comunicar servidor' + error });
 
+    }
+  }
+
+
+  public async login(req: Request, res: Response): Promise<Response> {
+    try {
+
+      const { email, password } = req.body;
+      const usuario = await User.find({ email });
+      const senhaValida = await bcrypt.compare(password, usuario[0].password)
+
+      if (!usuario) {
+        return res.status(404).json({ mensagem: 'Usuário ou senha inválida' })
+      }
+
+      if (!senhaValida) {
+        return res.status(404).json({ mensagem: 'Usuário ou senha inválida' })
+      }
+
+      //Usuário autenticado, gerar token JWT
+      const token = jwt.sign(
+
+        {id: usuario[0]._id, email: usuario[0].email}, process.env.JWT_SECRET as string, { expiresIn: '1h' }
+        
+      );
+
+      return res.status(200).json({ mensagem: 'Usuário logado com sucesso.', token});
+
+    } catch (error) {
+      return res.status(500).json({ mensagem: 'Erro ao fazer login. Impossivel comunicar com servidor' + error });
     }
   }
 

@@ -15,6 +15,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const modelUser_1 = require("../models/modelUser");
 const cadastrarUser_1 = require("../validations/cadastrarUser");
 const bcryptjs_1 = __importDefault(require("bcryptjs"));
+const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
+const dotenv_1 = __importDefault(require("dotenv"));
+dotenv_1.default.config();
 class ControllPublic {
     principal(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
@@ -48,6 +51,27 @@ class ControllPublic {
             }
             catch (error) {
                 return res.status(500).json({ mensagem: 'Erro ao criar usuario impossivel comunicar servidor' + error });
+            }
+        });
+    }
+    login(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const { email, password } = req.body;
+                const usuario = yield modelUser_1.User.find({ email });
+                const senhaValida = yield bcryptjs_1.default.compare(password, usuario[0].password);
+                if (!usuario) {
+                    return res.status(404).json({ mensagem: 'Usuário ou senha inválida' });
+                }
+                if (!senhaValida) {
+                    return res.status(404).json({ mensagem: 'Usuário ou senha inválida' });
+                }
+                //Usuário autenticado, gerar token JWT
+                const token = jsonwebtoken_1.default.sign({ id: usuario[0]._id, email: usuario[0].email }, process.env.JWT_SECRET, { expiresIn: '1h' });
+                return res.status(200).json({ mensagem: 'Usuário logado com sucesso.', token });
+            }
+            catch (error) {
+                return res.status(500).json({ mensagem: 'Erro ao fazer login. Impossivel comunicar com servidor' + error });
             }
         });
     }

@@ -8,21 +8,18 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
-const mongoose_1 = __importDefault(require("mongoose"));
-const dotenv_1 = __importDefault(require("dotenv"));
-dotenv_1.default.config();
-const conne = () => __awaiter(void 0, void 0, void 0, function* () {
-    try {
-        yield mongoose_1.default.connect(`${process.env.URI_MONGO}/${process.env.DB_NAME}`);
-        console.log("Connected to MongoDB");
+class ControllPrivate {
+    private(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                return res.status(200).json({ mensagem: 'Acesso permitido a rota privada', user: req.user });
+            }
+            catch (error) {
+                return res.status(500).json({ mensagem: 'Erro ao acessar rota privada. Impossivel comunicar com servidor' + error });
+            }
+        });
     }
-    catch (error) {
-        console.error("Error connecting to MongoDB:", error);
-    }
-});
-exports.default = conne;
-//# sourceMappingURL=conne.js.map
+}
+exports.default = new ControllPrivate();
+//# sourceMappingURL=controllPrivate.js.map
