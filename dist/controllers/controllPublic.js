@@ -10,7 +10,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const modelUser_1 = require("../models/modelUser");
-const zod_1 = require("zod");
+const cadastrarUser_1 = require("../validations/cadastrarUser");
 class ControllPublic {
     principal(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
@@ -22,25 +22,8 @@ class ControllPublic {
         return __awaiter(this, void 0, void 0, function* () {
             var _a;
             try {
-                const useShema = zod_1.z.object({
-                    name: zod_1.z.string()
-                        .min(6, 'Nome: é deve conter no mínimo 6 caracteres')
-                        .max(30, 'Nome: deve conter no máximo 30 caracteres'),
-                    email: zod_1.z.string()
-                        .email('Formato de email inválido')
-                        .min(6, 'Email: deve conter no mínimo 6 caracteres')
-                        .max(30, 'Email: deve conter no máximo 30 caracteres'),
-                    password: zod_1.z.string()
-                        .min(6, 'Password deve conter no mínimo 6 caracteres')
-                        .max(30, 'Password deve conter no máximo 30 caracteres')
-                        .regex(/[A-Z]/, "A senha deve conter pelo menos uma letra maiúscula")
-                        .regex(/[a-z]/, "A senha deve conter pelo menos uma letra minúscula")
-                        .regex(/[0-9]/, "A senha deve conter pelo menos um número")
-                        .regex(/[!@#$%^&*(),.?":{}|<>]/, "A senha deve conter pelo menos um caractere especial"),
-                    cargo: zod_1.z.enum(['admin', 'agente', 'cliente', 'user'])
-                        .optional(),
-                });
-                const result = useShema.safeParse(req.body);
+                //Depois devo levar esse codigo fora daqui desta função para apenas importar ele aqui, para deixar o código mais limpo e organizado, mas por enquanto deixarei aqui mesmo para facilitar a construção do endpoint
+                const result = cadastrarUser_1.useShema.safeParse(req.body);
                 //Mostra os erros de validação caso haja
                 if (!result.success) {
                     return res.status(400).json({
