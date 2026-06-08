@@ -31,7 +31,7 @@ class ControllPublic {
       //Verificar se o email já existe no banco de dados
       const emailExistente = await User.findOne({ email });
 
-      if(emailExistente) {
+      if (emailExistente) {
         return res.status(409).json({ mensagem: 'Email já cadastrado' });
       }
 
@@ -47,6 +47,29 @@ class ControllPublic {
 
       return res.status(500).json({ mensagem: 'Erro ao criar usuario impossivel comunicar servidor' + error });
 
+    }
+  }
+
+  
+  public async login(req: Request, res: Response): Promise<Response> {
+    try {
+
+      const { email, password } = req.body;
+      const usuario = await User.find({ email });
+      const senhaValida = await bcrypt.compare(password, usuario[0].password)
+
+      if (!usuario) {
+        return res.status(404).json({ mensagem: 'Usuário ou senha inválida' })
+      }
+
+      if (!senhaValida) {
+        return res.status(404).json({ mensagem: 'Usuário ou senha inválida' })
+      }
+
+      return res.status(200).json({ mensagem: 'Login bem-sucedido', usuario });
+
+    } catch (error) {
+      return res.status(500).json({ mensagem: 'Erro ao fazer login impossivel comunicar com servidor' + error });
     }
   }
 
