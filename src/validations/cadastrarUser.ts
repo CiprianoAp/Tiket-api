@@ -12,10 +12,10 @@ const useShema = z.object({
     password: z.string()
         .min(6, 'Password deve conter no mínimo 6 caracteres')
         .max(30, 'Password deve conter no máximo 30 caracteres')
-        .regex(/[A-Z]/, "A senha deve conter pelo menos uma letra maiúscula")
-        .regex(/[a-z]/, "A senha deve conter pelo menos uma letra minúscula")
-        .regex(/[0-9]/, "A senha deve conter pelo menos um número")
-        .regex(/[!@#$%^&*(),.?":{}|<>]/, "A senha deve conter pelo menos um caractere especial"),
+        .regex(/[A-Z]/, "A senha deve conter pelomenos uma letra maiúscula")
+        .regex(/[a-z]/, "A senha deve conter pelomenos uma letra minúscula")
+        .regex(/[0-9]/, "A senha deve conter pelomenos um número")
+        .regex(/[!@#$%^&*(),.?":{}|<>]/, "A senha deve conter pelomenos um caractere especial"),
     cargo: z.enum(['admin', 'agente', 'cliente', 'user'])
         .optional(),
 

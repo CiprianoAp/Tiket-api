@@ -28,6 +28,14 @@ class ControllPublic {
       }
 
       const { name, email, password, cargo } = req.body;
+      //Verificar se o email já existe no banco de dados
+      const emailExistente = await User.findOne({ email });
+
+      if(emailExistente) {
+        return res.status(409).json({ mensagem: 'Email já cadastrado' });
+      }
+
+      //Hash da senha para segurança convertendo a senha em hash para não armazenar a senha em texto puro no banco de dados, isso é uma prática de segurança importante para proteger as informações dos usuários caso o banco de dados seja comprometido.
       const senhaHash = await bcrypt.hash(password, 10);
 
       const novoUsuario = new User({ name, email, password: senhaHash, cargo });
