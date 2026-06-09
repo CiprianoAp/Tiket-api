@@ -8,11 +8,11 @@ const conne = async () => {
 
         await mongoose.connect(`${process.env.URI_MONGO}/${process.env.DB_NAME}`);
 
-        console.log("Connected to MongoDB");
+        console.log("BD, conectado com sucesso");
 
     } catch (error) {
 
-        console.error("Error connecting to MongoDB:", error);
+        console.error("Erro, ao se conectar com o servidor, verifica a sua internet...:");
     }
 };
 
