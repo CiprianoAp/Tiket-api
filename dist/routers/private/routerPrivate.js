@@ -8,5 +8,6 @@ const auth_1 = require("../../middleware/auth");
 const controllPrivate_1 = __importDefault(require("../../controllers/controllPrivate"));
 const routerPrivate = express_1.default.Router();
 routerPrivate.get('/private', auth_1.auth, controllPrivate_1.default.private);
+routerPrivate.get('/todos-usuarios', auth_1.auth, controllPrivate_1.default.alluser);
 exports.default = routerPrivate;
 //# sourceMappingURL=routerPrivate.js.map

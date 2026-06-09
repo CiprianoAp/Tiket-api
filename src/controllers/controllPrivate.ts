@@ -1,5 +1,5 @@
-import exporess from "express";
 import { Request, Response } from "express";
+import { User } from '../models/modelUser';
 
 class ControllPrivate {
 
@@ -11,6 +11,15 @@ class ControllPrivate {
             return res.status(500).json({ mensagem: 'Erro ao acessar rota privada. Impossivel comunicar com servidor' + error });
         }
 
+    }
+
+    public async alluser(req: Request, res: Response) {
+        try {
+            const allUser = await User.find({}, "name email cargo");
+            res.status(200).json({ mensagem: "Todos os usuarios", allUser })
+        } catch (error) {
+            res.status(500).json({ mensagem: 'Impossivel de se conectar com o servidor' });
+        }
     }
 }
 

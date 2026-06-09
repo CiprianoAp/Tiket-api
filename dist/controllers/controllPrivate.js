@@ -9,6 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+const modelUser_1 = require("../models/modelUser");
 class ControllPrivate {
     private(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
@@ -17,6 +18,17 @@ class ControllPrivate {
             }
             catch (error) {
                 return res.status(500).json({ mensagem: 'Erro ao acessar rota privada. Impossivel comunicar com servidor' + error });
+            }
+        });
+    }
+    alluser(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const allUser = yield modelUser_1.User.find({}, "name email cargo");
+                res.status(200).json({ mensagem: "Todos os usuarios", allUser });
+            }
+            catch (error) {
+                res.status(500).json({ mensagem: 'Impossivel de se conectar com o servidor' });
             }
         });
     }
