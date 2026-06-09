@@ -1,6 +1,7 @@
 import type { Request, Response } from 'express';
 import { User } from '../models/modelUser';
 import { useShema } from '../validations/cadastrarUser';
+import { loginShema } from '../validations/login';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
@@ -25,7 +26,7 @@ class ControllPublic {
 
       //Mostra os erros de validação caso haja
       if (!result.success) {
-        return res.status(400).json({
+        return res.status(401).json({
           error: result.error.issues[0]?.message
         });
       }
@@ -57,6 +58,16 @@ class ControllPublic {
   public async login(req: Request, res: Response): Promise<Response> {
     try {
 
+      //Validacao login
+      const result = loginShema.safeParse(req.body);
+
+      //Mostrar os erros da validacao login caso existir
+      if (!result.success) {
+        return res.status(401).json({
+          error: result.error.issues[0]?.message
+        });
+      }
+
       const { email, password } = req.body;
       const usuario = await User.find({ email });
       const senhaValida = await bcrypt.compare(password, usuario[0].password)
@@ -72,11 +83,11 @@ class ControllPublic {
       //Usuário autenticado, gerar token JWT
       const token = jwt.sign(
 
-        {id: usuario[0]._id, email: usuario[0].email}, process.env.JWT_SECRET as string, { expiresIn: '1h' }
-        
+        { id: usuario[0]._id, email: usuario[0].email }, process.env.JWT_SECRET as string, { expiresIn: '1h' }
+
       );
 
-      return res.status(200).json({ mensagem: 'Usuário logado com sucesso.', token});
+      return res.status(200).json({ mensagem: 'Usuário logado com sucesso.', token });
 
     } catch (error) {
       return res.status(500).json({ mensagem: 'Erro ao fazer login. Impossivel comunicar com servidor' + error });

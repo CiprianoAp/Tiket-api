@@ -14,6 +14,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const modelUser_1 = require("../models/modelUser");
 const cadastrarUser_1 = require("../validations/cadastrarUser");
+const login_1 = require("../validations/login");
 const bcryptjs_1 = __importDefault(require("bcryptjs"));
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const dotenv_1 = __importDefault(require("dotenv"));
@@ -33,7 +34,7 @@ class ControllPublic {
                 const result = cadastrarUser_1.useShema.safeParse(req.body);
                 //Mostra os erros de validação caso haja
                 if (!result.success) {
-                    return res.status(400).json({
+                    return res.status(401).json({
                         error: (_a = result.error.issues[0]) === null || _a === void 0 ? void 0 : _a.message
                     });
                 }
@@ -56,7 +57,16 @@ class ControllPublic {
     }
     login(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
+            var _a;
             try {
+                //Validacao login
+                const result = login_1.loginShema.safeParse(req.body);
+                //Mostrar os erros da validacao login caso existir
+                if (!result.success) {
+                    return res.status(401).json({
+                        error: (_a = result.error.issues[0]) === null || _a === void 0 ? void 0 : _a.message
+                    });
+                }
                 const { email, password } = req.body;
                 const usuario = yield modelUser_1.User.find({ email });
                 const senhaValida = yield bcryptjs_1.default.compare(password, usuario[0].password);
