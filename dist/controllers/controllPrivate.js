@@ -114,6 +114,19 @@ class ControllPrivate {
             }
         });
     }
+    //Verificar comentarios de um tiket
+    verComentariosTiket(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const { id_tiket } = req.body;
+                const comentarios = yield comentarioTiket_1.ComentarioTiket.find({ tiket: id_tiket }).populate('utilizador', 'name').populate('tiket', 'titulo descricao estado categoria').sort({ createdAt: -1 });
+                res.json({ mensagem: "Comentarios do tiket", comentarios });
+            }
+            catch (error) {
+                res.status(500).json({ mensagem: "Erro ao carregar comentarios do tiket", error });
+            }
+        });
+    }
 }
 exports.default = new ControllPrivate();
 //# sourceMappingURL=controllPrivate.js.map
