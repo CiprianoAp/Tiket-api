@@ -21,6 +21,8 @@ class ControllPrivate {
             res.status(500).json({ mensagem: 'Impossivel de se conectar com o servidor' });
         }
     }
+
+    //CRIAR TIKET
 }
 
 export default new ControllPrivate();
