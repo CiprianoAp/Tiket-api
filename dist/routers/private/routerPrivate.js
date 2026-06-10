@@ -10,5 +10,6 @@ const routerPrivate = express_1.default.Router();
 routerPrivate.get('/private', auth_1.auth, controllPrivate_1.default.private);
 routerPrivate.get('/todos-usuarios', auth_1.auth, controllPrivate_1.default.alluser);
 routerPrivate.post('/criar-tiket', auth_1.auth, controllPrivate_1.default.criarTiket);
+routerPrivate.get('/meus-tikets', auth_1.auth, controllPrivate_1.default.meusTikets);
 exports.default = routerPrivate;
 //# sourceMappingURL=routerPrivate.js.map

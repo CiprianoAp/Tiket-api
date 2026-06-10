@@ -10,7 +10,7 @@ const ticketSchema = new mongoose_1.default.Schema({
     titulo: { type: String, required: true },
     descricao: { type: String, required: true },
     estado: { type: String, enum: ["ABERTO", "EM_ANALISE", "EM_ATENDIMENTO", "AGUARDANDO_CLIENTE", "RESOLVIDO", "FECHADO", "REABERTO"], default: "ABERTO" },
-    categoria: { type: String, enum: ["HARDWARE", "SOFTWARE", "REDE", "EMAIL", "IMPRESSORA", "ACESSO", "OUTROS"], default: "OUTROS" },
+    categoria: { type: String, enum: ["HARDWARE", "SOFTWARE", "REDE", "EMAIL", "IMPRESSORA", "EM_ATENDIMENTOCESSO", "OUTROS"], default: "OUTROS" },
     criadoPor: { type: mongoose_2.Schema.Types.ObjectId, ref: "User", required: true },
     atribuidoPara: { type: mongoose_2.Schema.Types.ObjectId, ref: "User" }
 }, { timestamps: true });

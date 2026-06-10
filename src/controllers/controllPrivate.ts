@@ -5,6 +5,7 @@ import { validarTiket } from "../validations/criarTikets";
 
 class ControllPrivate {
 
+    //Rota inicial de teste  privada
     public async private(req: Request, res: Response) {
 
         try {
@@ -32,8 +33,8 @@ class ControllPrivate {
 
             const result = validarTiket.safeParse(req.body);
 
-            if(!result.success){
-                return res.status(401).json({mensagem: result.error.issues[0]?.message});
+            if (!result.success) {
+                return res.status(401).json({ mensagem: result.error.issues[0]?.message });
             }
 
             const { titulo, descricao, estado, categoria, criadoPor } = req.body
@@ -52,6 +53,22 @@ class ControllPrivate {
 
         } catch (error) {
             return res.status(501).json({ mensagem: 'Erro ao criar tiket verifica a sua ligacao de internet porfavor', error });
+        }
+    }
+
+    //meus tikets
+    public async meusTikets(req: Request, res: Response) {
+        try {
+
+            const { id_user } = req.body;
+
+            const meusTikets = await Ticket.find({ criadoPor: id_user });
+
+            return res.status(200).json({ mensagem: "Meus Tickets", meusTikets });
+
+        } catch (error) {
+
+            return res.status(501).json({ mensagem: "Erro ao carregar seus tikets", error });
         }
     }
 }

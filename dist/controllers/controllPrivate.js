@@ -13,6 +13,7 @@ const modelUser_1 = require("../models/modelUser");
 const modelticket_1 = require("../models/modelticket");
 const criarTikets_1 = require("../validations/criarTikets");
 class ControllPrivate {
+    //Rota inicial de teste  privada
     private(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
@@ -57,6 +58,19 @@ class ControllPrivate {
             }
             catch (error) {
                 return res.status(501).json({ mensagem: 'Erro ao criar tiket verifica a sua ligacao de internet porfavor', error });
+            }
+        });
+    }
+    //meus tikets
+    meusTikets(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const { id_user } = req.body;
+                const meusTikets = yield modelticket_1.Ticket.find({ criadoPor: id_user });
+                return res.status(200).json({ mensagem: "Meus Tickets", meusTikets });
+            }
+            catch (error) {
+                return res.status(501).json({ mensagem: "Erro ao carregar seus tikets", error });
             }
         });
     }

@@ -5,7 +5,7 @@ const ticketSchema = new mongoose.Schema({
     titulo: { type: String, required: true },
     descricao: {type: String, required: true },
     estado: {type: String, enum:["ABERTO","EM_ANALISE","EM_ATENDIMENTO","AGUARDANDO_CLIENTE","RESOLVIDO","FECHADO","REABERTO"], default: "ABERTO"},
-    categoria: {type: String, enum:["HARDWARE","SOFTWARE","REDE","EMAIL","IMPRESSORA","ACESSO","OUTROS"], default: "OUTROS"},
+    categoria: {type: String, enum:["HARDWARE","SOFTWARE","REDE","EMAIL","IMPRESSORA","EM_ATENDIMENTOCESSO","OUTROS"], default: "OUTROS"},
     criadoPor: { type: Schema.Types.ObjectId,ref: "User",required: true },
     atribuidoPara: {type: Schema.Types.ObjectId, ref: "User"}
 },{timestamps: true})

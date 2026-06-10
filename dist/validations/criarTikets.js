@@ -8,9 +8,9 @@ const zod_1 = __importDefault(require("zod"));
 const validarTiket = zod_1.default.object({
     titulo: zod_1.default.string()
         .min(7, "Titulo: deve terno minio 7 caracteres")
-        .max(25, "Titulo: deve ter no maximo 25 caracteres"),
+        .max(40, "Titulo: deve ter no maximo 40 caracteres"),
     descricao: zod_1.default.string()
-        .min(50, "Descricao: deve terno minio 50 caracteres")
+        .min(40, "Descricao: deve terno minio 40 caracteres")
         .max(255, "Titulo: deve ter no maximo 255 caracteres"),
     estado: zod_1.default.enum(["ABERTO", "EM_ANALISE", "EM_ATENDIMENTO", "AGUARDANDO_CLIENTE", "RESOLVIDO", "FECHADO", "REABERTO"]),
     categoria: zod_1.default.enum(["HARDWARE", "SOFTWARE", "REDE", "EMAIL", "IMPRESSORA", "ACESSO", "OUTROS"]),
