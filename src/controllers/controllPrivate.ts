@@ -71,6 +71,19 @@ class ControllPrivate {
             return res.status(501).json({ mensagem: "Erro ao carregar seus tikets", error });
         }
     }
+
+    //ver um tiket especifico
+    public async verTiket(req: Request, res: Response){
+        try {
+
+            const { id_tiket } = req.body;
+            const tiket = await Ticket.findById({_id: id_tiket});
+          return  res.status(200).json({ mensagem: "Tiket encontrado", tiket })
+
+        }catch(error){
+           return res.status(500).json({ mensagem: "Erro ao encontrar tiket", error })
+        }
+    }
 }
 
 export default new ControllPrivate();

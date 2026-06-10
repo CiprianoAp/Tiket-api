@@ -74,6 +74,19 @@ class ControllPrivate {
             }
         });
     }
+    //ver um tiket especifico
+    verTiket(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const { id_tiket } = req.body;
+                const tiket = yield modelticket_1.Ticket.findById({ _id: id_tiket });
+                return res.status(200).json({ mensagem: "Tiket encontrado", tiket });
+            }
+            catch (error) {
+                return res.status(500).json({ mensagem: "Erro ao encontrar tiket", error });
+            }
+        });
+    }
 }
 exports.default = new ControllPrivate();
 //# sourceMappingURL=controllPrivate.js.map
