@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import { User } from '../models/modelUser';
 import { Ticket } from "../models/modelticket";
 import { validarTiket } from "../validations/criarTikets";
+import { ComentarioTiket } from "../models/comentarioTiket";
 
 class ControllPrivate {
 
@@ -82,6 +83,38 @@ class ControllPrivate {
 
         }catch(error){
            return res.status(500).json({ mensagem: "Erro ao encontrar tiket", error })
+        }
+    }
+
+    //Adicionar comentario no tiket
+    public async comentarTiket(req: Request, res: Response){
+
+        const { id_usuario, id_tiket, mensagem } = req.body;
+        try{
+
+            const tiket = await Ticket.findById({_id: id_tiket});
+
+            if(!tiket){
+                return res.status(404).json({ mensagem: "Tiket não encontrado" });
+            }   
+
+            const usuario = await User.findById({_id: id_usuario});
+
+            if(!usuario){
+                return res.status(404).json({ mensagem: "Usuario não encontrado" });
+            }
+            const comentario = new ComentarioTiket({
+                tiket: id_tiket,
+                utilizador: id_usuario,
+                mensagem
+            })
+
+            await comentario.save();
+
+            return res.status(201).json({mensagem: "Comentario adicionado com sucesso", comentario })
+
+        }catch(error){
+            return res.status(501).json({ mensagem: "Erro ao adicionar comentario", error })
         }
     }
 }

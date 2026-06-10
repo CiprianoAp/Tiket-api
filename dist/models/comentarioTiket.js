@@ -33,7 +33,7 @@ var __importStar = (this && this.__importStar) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.Tiket = void 0;
+exports.ComentarioTiket = void 0;
 const mongoose_1 = __importStar(require("mongoose"));
 const cometarioShema = new mongoose_1.default.Schema({
     tiket: {
@@ -51,5 +51,5 @@ const cometarioShema = new mongoose_1.default.Schema({
         required: true
     }
 }, { timestamps: true });
-exports.Tiket = mongoose_1.default.model('Tiket', cometarioShema);
+exports.ComentarioTiket = mongoose_1.default.model('ComentarioTiket', cometarioShema);
 //# sourceMappingURL=comentarioTiket.js.map

@@ -17,4 +17,4 @@ const cometarioShema = new mongoose.Schema({
     }
 },{timestamps: true});
 
-export const Tiket = mongoose.model('Tiket', cometarioShema); 
+export const ComentarioTiket = mongoose.model('ComentarioTiket', cometarioShema); 

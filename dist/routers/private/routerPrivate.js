@@ -12,5 +12,6 @@ routerPrivate.get('/todos-usuarios', auth_1.auth, controllPrivate_1.default.allu
 routerPrivate.post('/criar-tiket', auth_1.auth, controllPrivate_1.default.criarTiket);
 routerPrivate.get('/meus-tikets', auth_1.auth, controllPrivate_1.default.meusTikets);
 routerPrivate.get('/ver-tiket', auth_1.auth, controllPrivate_1.default.verTiket);
+routerPrivate.post('/comentar-tiket', auth_1.auth, controllPrivate_1.default.comentarTiket);
 exports.default = routerPrivate;
 //# sourceMappingURL=routerPrivate.js.map

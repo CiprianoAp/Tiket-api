@@ -9,6 +9,7 @@ routerPrivate.get('/todos-usuarios', auth,controllPrivate.alluser);
 routerPrivate.post('/criar-tiket', auth, controllPrivate.criarTiket);
 routerPrivate.get('/meus-tikets', auth, controllPrivate.meusTikets);
 routerPrivate.get('/ver-tiket', auth, controllPrivate.verTiket);
+routerPrivate.post('/comentar-tiket', auth, controllPrivate.comentarTiket);
 
 
 export default routerPrivate;

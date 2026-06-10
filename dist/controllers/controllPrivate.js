@@ -12,6 +12,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const modelUser_1 = require("../models/modelUser");
 const modelticket_1 = require("../models/modelticket");
 const criarTikets_1 = require("../validations/criarTikets");
+const comentarioTiket_1 = require("../models/comentarioTiket");
 class ControllPrivate {
     //Rota inicial de teste  privada
     private(req, res) {
@@ -84,6 +85,32 @@ class ControllPrivate {
             }
             catch (error) {
                 return res.status(500).json({ mensagem: "Erro ao encontrar tiket", error });
+            }
+        });
+    }
+    //Adicionar comentario no tiket
+    comentarTiket(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const { id_usuario, id_tiket, mensagem } = req.body;
+            try {
+                const tiket = yield modelticket_1.Ticket.findById({ _id: id_tiket });
+                if (!tiket) {
+                    return res.status(404).json({ mensagem: "Tiket não encontrado" });
+                }
+                const usuario = yield modelUser_1.User.findById({ _id: id_usuario });
+                if (!usuario) {
+                    return res.status(404).json({ mensagem: "Usuario não encontrado" });
+                }
+                const comentario = new comentarioTiket_1.ComentarioTiket({
+                    tiket: id_tiket,
+                    utilizador: id_usuario,
+                    mensagem
+                });
+                yield comentario.save();
+                return res.status(201).json({ mensagem: "Comentario adicionado com sucesso", comentario });
+            }
+            catch (error) {
+                return res.status(501).json({ mensagem: "Erro ao adicionar comentario", error });
             }
         });
     }
