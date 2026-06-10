@@ -14,5 +14,6 @@ routerPrivate.get('/meus-tikets', auth_1.auth, controllPrivate_1.default.meusTik
 routerPrivate.get('/ver-tiket', auth_1.auth, controllPrivate_1.default.verTiket);
 routerPrivate.post('/comentar-tiket', auth_1.auth, controllPrivate_1.default.comentarTiket);
 routerPrivate.get('/ver-comentarios-tiket', auth_1.auth, controllPrivate_1.default.verComentariosTiket);
+routerPrivate.post('/atribuir-tiket', auth_1.auth, controllPrivate_1.default.atribuicaoTiket);
 exports.default = routerPrivate;
 //# sourceMappingURL=routerPrivate.js.map

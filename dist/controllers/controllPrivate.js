@@ -127,6 +127,28 @@ class ControllPrivate {
             }
         });
     }
+    atribuicaoTiket(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const { id_tiket, id_usuario } = req.body;
+                const tiket = yield modelticket_1.Ticket.findById({ _id: id_tiket });
+                if (!tiket) {
+                    return res.status(404).json({ mensagem: "Tiket não encontrado" });
+                }
+                const usuario = yield modelUser_1.User.findById({ _id: id_usuario });
+                if (!usuario) {
+                    return res.status(404).json({ mensagem: "Usuario não encontrado" });
+                }
+                //Atribuir o tiket para o usuario
+                tiket.atribuidoPara = id_usuario;
+                yield tiket.save();
+                return res.status(200).json({ mensagem: "Tiket atribuido com sucesso", tiket });
+            }
+            catch (error) {
+                return res.status(500).json({ mensagem: "Erro ao atribuir tiket", error });
+            }
+        });
+    }
 }
 exports.default = new ControllPrivate();
 //# sourceMappingURL=controllPrivate.js.map

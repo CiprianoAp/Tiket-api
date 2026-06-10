@@ -119,7 +119,6 @@ class ControllPrivate {
     }
 
     //Verificar comentarios de um tiket
-
     public async verComentariosTiket(req: Request, res: Response){ 
         try{
 
@@ -128,6 +127,32 @@ class ControllPrivate {
             res.json({ mensagem: "Comentarios do tiket", comentarios });
         }catch(error){
             res.status(500).json({ mensagem: "Erro ao carregar comentarios do tiket", error });
+        }
+    }
+
+    public async atribuicaoTiket(req: Request, res: Response){
+        try{
+            const { id_tiket, id_usuario } = req.body;
+
+            const tiket = await Ticket.findById({_id: id_tiket});
+
+            if(!tiket){
+                return res.status(404).json({ mensagem: "Tiket não encontrado" });
+            }
+
+            const usuario = await User.findById({_id: id_usuario});
+
+            if(!usuario){
+                return res.status(404).json({ mensagem: "Usuario não encontrado" });
+            }
+
+                //Atribuir o tiket para o usuario
+                tiket.atribuidoPara = id_usuario;
+                await tiket.save();
+    
+                return res.status(200).json({ mensagem: "Tiket atribuido com sucesso", tiket })
+        }catch(error){
+            return res.status(500).json({ mensagem: "Erro ao atribuir tiket", error })
         }
     }
 }
