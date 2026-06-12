@@ -1,5 +1,6 @@
 import { Request, Response, NextFunction } from "express";
 import jwt, { JwtPayload } from "jsonwebtoken";
+import { AuthRequest } from '../types/AuthRequest';
 import dotenv from "dotenv";
 
 dotenv.config();
@@ -10,7 +11,7 @@ interface UserPayload extends JwtPayload {
 }
 
 export const auth = (
-  req: Request,
+  req: AuthRequest,
   res: Response,
   next: NextFunction
 ) => {
@@ -40,7 +41,8 @@ export const auth = (
 
     req.user = {
       id: decoded.id,
-      email: decoded.email
+      email: decoded.email,
+      cargo: decoded.cargo
     };
 
     next();
