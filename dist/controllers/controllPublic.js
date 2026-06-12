@@ -77,7 +77,7 @@ class ControllPublic {
                     return res.status(404).json({ mensagem: 'Usuário ou senha inválida' });
                 }
                 //Usuário autenticado, gerar token JWT
-                const token = jsonwebtoken_1.default.sign({ id: usuario[0]._id, email: usuario[0].email }, process.env.JWT_SECRET, { expiresIn: '1h' });
+                const token = jsonwebtoken_1.default.sign({ id: usuario[0]._id, email: usuario[0].email, cargo: usuario[0].cargo }, process.env.JWT_SECRET, { expiresIn: '1h' });
                 return res.status(200).json({ mensagem: 'Usuário logado com sucesso.', token });
             }
             catch (error) {

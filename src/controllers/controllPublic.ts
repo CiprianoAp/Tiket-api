@@ -83,7 +83,7 @@ class ControllPublic {
       //Usuário autenticado, gerar token JWT
       const token = jwt.sign(
 
-        { id: usuario[0]._id, email: usuario[0].email }, process.env.JWT_SECRET as string, { expiresIn: '1h' }
+        { id: usuario[0]._id, email: usuario[0].email, cargo: usuario[0].cargo }, process.env.JWT_SECRET as string, { expiresIn: '1h' }
 
       );
 
