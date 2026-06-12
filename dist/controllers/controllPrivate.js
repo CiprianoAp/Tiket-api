@@ -127,6 +127,7 @@ class ControllPrivate {
             }
         });
     }
+    //Atribui tiket ao tecnico
     atribuicaoTiket(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             try {

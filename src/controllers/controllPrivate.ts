@@ -129,7 +129,7 @@ class ControllPrivate {
             res.status(500).json({ mensagem: "Erro ao carregar comentarios do tiket", error });
         }
     }
-
+    //Atribui tiket ao tecnico
     public async atribuicaoTiket(req: Request, res: Response){
         try{
             const { id_tiket, id_usuario } = req.body;
